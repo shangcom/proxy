@@ -3,9 +3,7 @@ package hello.proxy.pureproxy.proxy.code;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 기존 객체의 operation() 메서드에 캐싱이라는 추가 작업 수행
- * -> 프록시 패턴.
- * 아예 새롱ㄴ
+ * 캐시를 통한 '접근 제어' -> 프록시 패턴.
  */
 @Slf4j
 public class CacheProxy implements Subject {
