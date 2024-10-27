@@ -7,8 +7,8 @@ public class MessageDecorator implements Component {
 
     private final Component component;
 
-    public MessageDecorator(RealComponent realComponent) {
-        this.component = realComponent;
+    public MessageDecorator(Component component) {
+        this.component = component;
     }
 
     @Override
