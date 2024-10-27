@@ -17,15 +17,13 @@ public class InterfaceProxyConfig {
         return new OrderControllerInterfaceProxy(controllerImpl, logTrace);
     }
 
-    @Bean
-    public OrderServiceV1 orderService(LogTrace logTrace) {
-        OrderServiceV1Impl serviceImpl = new OrderServiceV1Impl(orderRepository(logTrace));
-        return new OrderServiceInterfaceProxy(serviceImpl, logTrace);
+    private OrderServiceV1 orderService(LogTrace logTrace) {
+        OrderServiceV1Impl orderServiceV1 = new OrderServiceV1Impl(orderRepository(logTrace));
+        return new OrderServiceInterfaceProxy(orderServiceV1, logTrace);
     }
 
-    @Bean
-    public OrderRepositoryV1 orderRepository(LogTrace logTrace) {
+    private OrderRepositoryV1 orderRepository(LogTrace trace) {
         OrderRepositoryV1Impl repositoryImpl = new OrderRepositoryV1Impl();
-        return new OrderRepositoryInterfaceProxy(repositoryImpl, logTrace);
+        return new OrderRepositoryInterfaceProxy(repositoryImpl, trace);
     }
 }
