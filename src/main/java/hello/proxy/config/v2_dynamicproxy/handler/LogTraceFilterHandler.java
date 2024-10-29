@@ -15,8 +15,7 @@ public class LogTraceFilterHandler implements InvocationHandler {
     private final LogTrace logTrace;
     private final String[] patterns;
 
-    public LogTraceFilterHandler(Object target, LogTrace logTrace, String...
-            patterns) {
+    public LogTraceFilterHandler(Object target, LogTrace logTrace, String...patterns) {
         this.target = target;
         this.logTrace = logTrace;
         this.patterns = patterns;
