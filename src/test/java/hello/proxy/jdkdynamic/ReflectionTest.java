@@ -9,6 +9,22 @@ import java.lang.reflect.Method;
 @Slf4j
 public class ReflectionTest {
 
+    // 만약 여기에 정적 메서드(static)이 있었다면, 구현체 없어도 리플렉션 가능함)
+    @Slf4j
+    static class Hello {
+        // 인스턴스 메서드.
+        public String callA() {
+            log.info("callA");
+            return "A";
+        }
+
+        // 인스턴스 메서드.
+        public String callB() {
+            log.info("callB");
+            return "B";
+        }
+    }
+
     @Test
     void reflection0() {
         Hello target = new Hello();
@@ -26,15 +42,18 @@ public class ReflectionTest {
         // 공통 로직2 종료
     }
 
+    /*
+    리플렉션을 사용해 동적으로 메서드를 호출하고 공통 로직을 적용하는 방식
+     */
     @Test
     void reflection1() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
         Hello target = new Hello();
 
-        // 클래스 정보
+        // 클래스 정보 (상단의 static class)
         Class classHello = Class.forName("hello.proxy.jdkdynamic.ReflectionTest$Hello");
 
-        Method methodCallA = classHello.getMethod("callA");
+        Method methodCallA = classHello.getMethod("callA"); // 매개변수 : 원본 클래스에 정의된 메서드 이름.
         Object result1 = methodCallA.invoke(target);
         log.info("result1 = {}", result1);
 
@@ -82,17 +101,5 @@ public class ReflectionTest {
         log.info("result = {}", result);
     }
 
-    @Slf4j
-    static class Hello {
-        public String callA() {
-            log.info("callA");
-            return "A";
-        }
-
-        public String callB() {
-            log.info("callB");
-            return "B";
-        }
-    }
 
 }
