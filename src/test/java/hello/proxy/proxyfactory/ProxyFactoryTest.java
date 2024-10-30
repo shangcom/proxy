@@ -12,6 +12,15 @@ import org.springframework.aop.support.AopUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * ProxyFactoryTest와 같이 사용자가 어드바이저를 명시적으로 추가하지 않고 Advice만 추가할 경우,
+ * 스프링은 자동으로 DefaultPointcutAdvisor를 생성하며,
+ * 이때 포인트컷으로는 Pointcut.TRUE(모든 메서드에 적용)를 사용함.
+ * 이를 통해 어드바이스가 모든 메서드에 적용되도록 하여 기본적인 부가 기능을 일괄 적용.
+ * Advice는 어드바이저 없이도 사용할 수 있는 것처럼 보이지만, 사실 스프링 AOP 내부에서는 항상 어드바이저를 통해 적용됩니다.
+ * 포인트컷은 항상 어드바이저와 함께 사용되어야 하며, 포인트컷이 없을 경우에는 스프링이 자동으로 Pointcut.TRUE와 결합하여
+ * 모든 메서드에 어드바이스를 적용할 수 있도록 한다.
+ */
 @Slf4j
 public class ProxyFactoryTest {
 
@@ -31,7 +40,7 @@ public class ProxyFactoryTest {
          */
         // target 객체를 자동으로 검사해 인터페이스 유뮤 확인을 통한 프록시 생성 방식 결정. (CGLIB으로 결정)
         ProxyFactory proxyFactory = new ProxyFactory(target);
-        // 프록시에 추가할 부가 기능(어드바이스) 설정. 프록시 생성 방식과 무관.
+        // addAdvice() : 프록시에 추가할 부가 기능(어드바이스) 설정. 프록시 생성 방식과 무관.
         proxyFactory.addAdvice(new TimeAdvice());
         // 프록시팩토리 생성시 결정된대로 인터페이스 기반의 프록시 객체 생성.
         ServiceInterface proxy = (ServiceInterface) proxyFactory.getProxy();
