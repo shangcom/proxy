@@ -6,9 +6,14 @@ import org.springframework.cglib.proxy.MethodProxy;
 
 import java.lang.reflect.Method;
 
+/**
+ * org.springframework.cglib.proxy.MethodInterceptor (CGLIB 전용)
+ * 사용 대상: 클래스 기반 프록시. 구체 클래스를 상속받아 프록시를 생성
+ * 프록시 생성 방식: CGLIB을 통해 생성되며, 인터페이스가 필요 없다.
+ * 메서드 가로채기 방식 : invoke() 메서드에 MethodProxy 객체 제공.
+ */
 @Slf4j
 public class TimeMethodInterceptor implements MethodInterceptor {
-
     private final Object target;
 
     public TimeMethodInterceptor(Object target) {

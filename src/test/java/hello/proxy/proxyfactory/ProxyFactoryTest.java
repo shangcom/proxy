@@ -25,12 +25,15 @@ public class ProxyFactoryTest {
 
         /*
          프록시 객체 생성.
-         매개변수로 넘긴 target의 인터페이스 유무를 자동으로 확인하고, 여기서는 있기 때문에 jdk동적 프록시로 생성한다
+         매개변수로 넘긴 target의 인터페이스 유무를 자동으로 확인하고, 여기서는 있기 때문에 jdk동적 프록시로 생성한다.
          또한, target의 정보를 이미 넘겼기 때문에 TimeAdvice에서 target 정보 따로 받을 필요 없이
          target의 메서드 정보를 가지고 있는 invocation으로 메서드를 바로 실행 가능.
          */
+        // target 객체를 자동으로 검사해 인터페이스 유뮤 확인을 통한 프록시 생성 방식 결정. (CGLIB으로 결정)
         ProxyFactory proxyFactory = new ProxyFactory(target);
+        // 프록시에 추가할 부가 기능(어드바이스) 설정. 프록시 생성 방식과 무관.
         proxyFactory.addAdvice(new TimeAdvice());
+        // 프록시팩토리 생성시 결정된대로 인터페이스 기반의 프록시 객체 생성.
         ServiceInterface proxy = (ServiceInterface) proxyFactory.getProxy();
         log.info("targetClass = {}", target.getClass());
         log.info("proxyClass = {}", proxy.getClass());

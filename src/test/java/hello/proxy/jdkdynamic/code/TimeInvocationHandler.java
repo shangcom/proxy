@@ -5,6 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
+/**
+ * InvocationHandler
+ * JDK 동적 프록시를 위한 인터페이스로, 인터페이스 기반의 프록시만 지원. 인터페이스가 없는 구체 클래스에 대해서는 사용 불가.
+ * 스프링이 아닌 JDK 표준 라이브러리.
+ * 메서드 가로채기 방식 : invoke() 메서드에 Method 객체가 제공.
+ * Method는 리플렉션을 사용해 메서드를 호출하므로, 성능이 CGLIB MethodProxy보다 느림.
+ */
 @Slf4j
 public class TimeInvocationHandler implements InvocationHandler {
 
