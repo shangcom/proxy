@@ -14,7 +14,7 @@ import org.springframework.aop.support.DefaultPointcutAdvisor;
 @Slf4j
 public class MultiAdvisorTest {
 
-    /**
+    /*
      * 구조 : client -> proxy2(advisor2) -> proxy1(advisor1) -> target
      */
     @Test
@@ -35,6 +35,26 @@ public class MultiAdvisorTest {
         ServiceInterface proxy2 = (ServiceInterface) proxyFactory2.getProxy();
 
         proxy2.save();
+    }
+
+    @Test
+    @DisplayName("단일 프록시에 복수 어드바이저")
+    void multiAdvisorTest2() {
+        /*
+         * 구조 : client -> proxy(advisor2 -> advisor1) -> target
+         */
+        ServiceInterface target = new ServiceImpl();
+        ProxyFactory proxyFactory = new ProxyFactory(target);
+
+        DefaultPointcutAdvisor advisor1 = new DefaultPointcutAdvisor(Pointcut.TRUE, new Advice1());
+        DefaultPointcutAdvisor advisor2 = new DefaultPointcutAdvisor(Pointcut.TRUE, new Advice2());
+
+        // 어드바이저를 프록시 팩토리에 등록한 순서대로 작동한다.
+        proxyFactory.addAdvisor(advisor2);
+        proxyFactory.addAdvisor(advisor1);
+        ServiceInterface proxy = (ServiceInterface) proxyFactory.getProxy();
+
+        proxy.save();
     }
 
     @Slf4j
