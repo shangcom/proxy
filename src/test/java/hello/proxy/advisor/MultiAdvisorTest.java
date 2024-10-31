@@ -54,7 +54,21 @@ public class MultiAdvisorTest {
         proxyFactory.addAdvisor(advisor1);
         ServiceInterface proxy = (ServiceInterface) proxyFactory.getProxy();
 
-        proxy.save();
+        proxy.save(); // 호출 시 벌어지는 일
+        /*
+         * proxy.save()
+         * -> advisor2의 Advice2.invoke 실행
+         * -> 전처리
+         * -> invocation.proceed()로 다음 어드바이스 체인 호출
+         * -> advisor1의 Advice1.invoke 실행
+         * -> 전처리
+         * -> invocation.proceed()로 타겟 메서드 호출
+         * -> 타겟 메서드 실행
+         * -> advisor1의 후처리 및 Advice1.invoke 종료
+         * -> advisor2의 후처리 및 Advice2.invoke 종료
+         * -> 종료
+         */
+
     }
 
     @Slf4j
